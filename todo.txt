@@ -1,0 +1,4 @@
+* Add ability to destroy rooms
+* Update CSS
+* Add authentication
+* Actually fix bug with spacing
