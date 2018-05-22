@@ -1,0 +1,19 @@
+{
+  "name": "deja-queue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sunflower",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "micro": "^9.3.1",
+    "now": "^11.1.12",
+    "socket.io": "^2.1.1"
+  }
+}

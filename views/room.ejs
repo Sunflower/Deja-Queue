@@ -1,0 +1,24 @@
+<% include partials/header %>
+
+  <a href="/">Home</a>
+
+  <h1>Queue</h1>
+  <ul id="queue">
+    <% queue.forEach(function(student) { %>
+      <li>
+        <span class='sName'>
+        <%= student %>
+        </span><span class='delete'><i class='fas fa-check'></i></span></li>
+      </li>
+    <% }) %>
+    
+  </ul>
+  
+  <form action="">
+    <input id="name" autocomplete="off" />
+    <button>Join Queue!!</button>
+  </form>
+  
+  
+<script src="/js/room.js" defer></script>
+<% include partials/footer %>

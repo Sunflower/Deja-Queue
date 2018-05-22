@@ -1,0 +1,32 @@
+<% include partials/header %>
+
+  <h1>Welcome to ...</h1>
+  
+  <form action="/createRoom" method="post">
+    <input id="newRoom" name="newRoom" autocomplete="off" />
+    <button>Create Room!!</button>
+  </form>
+  
+  <h2>Rooms: </h2>
+  <table>
+      <tr>
+        <th>Room Name</th>
+        <th>Queue Size</th>
+      </tr>
+      <% Object.keys(rooms).forEach(function(roomName) { %>
+        <tr>
+        <td>
+          <a href= <%= "room/" + roomName %>>
+            <%= roomName %>
+          </a>
+        </td>
+        <td>
+          <%= rooms[roomName].length %>
+        </td>
+      </tr>
+      <% }) %>
+      
+      
+  </table>
+    
+<% include partials/footer %>
