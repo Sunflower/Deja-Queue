@@ -41,6 +41,7 @@ io.on('connection', function(socket){
     socket.on('enqueue', function(roomNStudent){
         let roomName = Object.keys(roomNStudent)[0];
         let student = roomNStudent[roomName];
+        student = student.replace(/\s+$/, '');
         
         io.emit('enqueue', student);
 
