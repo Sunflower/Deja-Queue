@@ -17,7 +17,7 @@ app.get("/", function(req, res) {
 app.get("/room/:roomName", function(req, res) {
     let roomName = req.params.roomName;
     console.log("Room is " + roomName);
-    res.render("room", {queue: rooms[roomName]});
+    res.render("room", {queue: rooms[roomName], roomName:roomName});
 });
 
 app.post("/createRoom", function(req, res) {
@@ -28,6 +28,19 @@ app.post("/createRoom", function(req, res) {
     } else {
         console.log("room exists");
     }
+    res.redirect("/");
+});
+
+app.get("/destroyRoom/:roomName", function(req, res) {
+    //let toBeDestroyed = req.body.newRoom;
+    let roomName = req.params.roomName;
+    console.log("roomName is: " + roomName);
+    console.log("rooms were: " + Object.keys(rooms).length);
+    let roomLen = Object.keys(rooms).length;
+    delete rooms[roomName];
+    console.log("rooms are now: " + Object.keys(rooms).length);
+    console.log("are rooms: " + roomLen + "?");
+    
     res.redirect("/");
 });
 

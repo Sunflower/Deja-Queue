@@ -1,6 +1,6 @@
 let socket = io();
 
-$('form').submit(function(){
+$('#queueForm').submit(function(){
     console.log('client side printing wowowowowwo!!');
     console.log(window.location.pathname);
     let path = window.location.pathname;

@@ -1,6 +1,9 @@
 <% include partials/header %>
 
   <a href="/">Home</a>
+  
+  <a href="/destroyRoom/<%=roomName%>">Destroy Room</a>
+  
 
   <h1>Queue</h1>
   <ul id="queue">
@@ -11,10 +14,9 @@
         </span><span class='delete'><i class='fas fa-check'></i></span></li>
       </li>
     <% }) %>
-    
   </ul>
   
-  <form action="">
+  <form id="queueForm" action="">
     <input id="name" autocomplete="off" />
     <button>Join Queue!!</button>
   </form>
