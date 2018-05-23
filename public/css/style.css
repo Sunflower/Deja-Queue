@@ -1,5 +1,5 @@
 body {
-    font-family: 'Indie Flower', 'Roboto', serif;
+    font-family: 'Baloo Chettan', 'Indie Flower', 'Roboto', serif;
 
     background: #DD5E89;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #F7BB97, #DD5E89);  /* Chrome 10-25, Safari 5.1-6 */
@@ -34,4 +34,8 @@ table {
 #roomName {
     margin-top: 0;
     margin-bottom: 0;
+}
+
+#destroyRoom {
+    float: right;
 }
