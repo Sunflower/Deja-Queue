@@ -4,22 +4,26 @@
   
   <a href="/destroyRoom/<%=roomName%>">Destroy Room</a>
   
-
-  <h1>Queue</h1>
-  <ul id="queue">
-    <% queue.forEach(function(student) { %>
-      <li>
-        <span class='sName'>
-        <%= student %>
-        </span><span class='delete'><i class='fas fa-check'></i></span></li>
-      </li>
-    <% }) %>
-  </ul>
-  
-  <form id="queueForm" action="">
-    <input id="name" autocomplete="off" required/>
-    <button>Join Queue!!</button>
-  </form>
+  <div id="container">
+    <h1 id="roomName"><%=roomName.toUpperCase()%></h1>
+    
+    <form id="queueForm" action="">
+      <input id="name" autocomplete="off" required/>
+      <button>Join Queue!!</button>
+    </form>
+    
+    <hr>
+    
+    <ul id="queue">
+      <% queue.forEach(function(student) { %>
+        <li>
+          <span class='sName'>
+          <%= student %>
+          </span><span class='delete'><i class='fas fa-check'></i></span></li>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
   
   
 <script src="/js/room.js" defer></script>
