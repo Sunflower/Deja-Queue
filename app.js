@@ -17,7 +17,12 @@ app.get("/", function(req, res) {
 app.get("/room/:roomName", function(req, res) {
     let roomName = req.params.roomName;
     console.log("Room is " + roomName);
-    res.render("room", {queue: rooms[roomName], roomName:roomName});
+    if (!rooms.hasOwnProperty(roomName)) {
+        res.redirect("/bizarroWorld");
+    } else {
+        res.render("room", {queue: rooms[roomName], roomName:roomName});
+    }
+
 });
 
 app.post("/createRoom", function(req, res) {
@@ -40,6 +45,19 @@ app.get("/destroyRoom/:roomName", function(req, res) {
     console.log("rooms are now: " + Object.keys(rooms).length);
     
     res.redirect("/");
+});
+
+app.get("/bizarroWorld", function(req, res) {
+    let rand = Math.random();
+    if (rand < 0.5) {
+        res.redirect("http://www.zombo.com/");
+    } else {
+        res.send("Aren't we all just the universe loving, hating, and trying to figure itself out?");      
+    }
+});
+
+app.get("*", function(req, res) {
+   res.redirect("/bizarroWorld"); 
 });
 
 io.on('connection', function(socket){
