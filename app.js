@@ -36,10 +36,8 @@ app.get("/destroyRoom/:roomName", function(req, res) {
     let roomName = req.params.roomName;
     console.log("roomName is: " + roomName);
     console.log("rooms were: " + Object.keys(rooms).length);
-    let roomLen = Object.keys(rooms).length;
     delete rooms[roomName];
     console.log("rooms are now: " + Object.keys(rooms).length);
-    console.log("are rooms: " + roomLen + "?");
     
     res.redirect("/");
 });
