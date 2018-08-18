@@ -1,10 +1,12 @@
 <% include partials/header %>
 
-  <a href="/">Home</a>
-  
-  <a id="destroyRoom" href="/destroyRoom/<%=roomName%>">Destroy Room</a>
-  
   <div id="container">
+    
+    <nav class="navbar">
+      <a href="/" id="home">Home</a>
+      <a id="destroyRoom" href="/destroyRoom/<%=roomName%>">Destroy Room</a>
+    </nav>
+    
     <h1 id="roomName"><%=roomName.toUpperCase()%></h1>
     
     <form id="queueForm" action="">
@@ -19,7 +21,10 @@
         <li>
           <span class='sName'>
           <%= student %>
-          </span><span class='delete'><i class='fas fa-check'></i></span></li>
+          </span>
+          <span class='delete'>
+            <i class='fas fa-check'></i>
+          </span>
         </li>
       <% }) %>
     </ul>

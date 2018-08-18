@@ -8,7 +8,10 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
-let rooms = {"master-bed": ["Anthony", "Estey"]};
+let rooms = {
+    "master-bed": ["Anthony", "Estey"],
+    "everlong" : ["Hello,", "I've", "waited", "here", "for", "you"]
+};
 
 app.get("/", function(req, res) {
     res.render("home", {rooms: rooms});
@@ -37,11 +40,13 @@ app.post("/createRoom", function(req, res) {
 });
 
 app.get("/destroyRoom/:roomName", function(req, res) {
-    //let toBeDestroyed = req.body.newRoom;
     let roomName = req.params.roomName;
+    
     console.log("roomName is: " + roomName);
     console.log("rooms were: " + Object.keys(rooms).length);
+    
     delete rooms[roomName];
+    
     console.log("rooms are now: " + Object.keys(rooms).length);
     
     res.redirect("/");
@@ -76,7 +81,7 @@ io.on('connection', function(socket){
 
         rooms[roomName].push(student);
         
-        console.log("Tried (perhaps succeeded) to add student in: "+ rooms[roomName]);
+        console.log("Tried (perhaps succeeded) to add " + student + " in: " + roomName);
     });
         
     socket.on('dequeue', function(roomNStudent){
@@ -85,15 +90,13 @@ io.on('connection', function(socket){
         student = student.replace(/\s+$/, '');   // OK BUT WHY!!!
         
         io.emit('dequeue', student);
-        console.log(student);
-        console.log(rooms[roomName][0]);
         
         let i = rooms[roomName].indexOf(student);
         if (i !== -1) {
             rooms[roomName].splice(i, 1);
-            console.log("Succeeded in removing student in: "+ rooms[roomName]);
+            console.log("Succeeded in removing " + student + " in " + roomName);
         } else {
-            console.log("Failed to remove student in: "+ rooms[roomName]);
+            console.log("Failed to remove " + student + " in " + roomName);
         }
     });
 });

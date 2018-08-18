@@ -1,2 +1,0 @@
-* Add authentication
-* Actually fix bug with spacing

@@ -1,5 +1,5 @@
 body {
-    font-family: 'Baloo Chettan', 'Indie Flower', 'Roboto', serif;
+    font-family: 'Roboto', 'Indie Flower', 'Baloo Chettan', serif;
 
     background: #DD5E89;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #F7BB97, #DD5E89);  /* Chrome 10-25, Safari 5.1-6 */
@@ -15,6 +15,12 @@ table {
     margin: auto;
 }
 
+table td + td { border-left:2px solid rgba(10, 20, 210, 0.3); }
+
+.fas {
+    color : green;
+}
+
 #container {
     width: 360px;
     margin: auto auto;
@@ -27,13 +33,15 @@ table {
     background: #83a4d4;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #b6fbff, #83a4d4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-
 }
 
 #roomName {
     margin-top: 0;
     margin-bottom: 0;
+}
+
+#home {
+    float: left;
 }
 
 #destroyRoom {
