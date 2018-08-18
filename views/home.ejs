@@ -1,24 +1,25 @@
 <% include partials/header %>
   
   <div id="container">
-    <h1>Deja Queue</h1>
-    <h3>I've been in this place before</h2>
+    <header>
+      <h1>Deja Queue</h1>
+      <h4>I've been in this place before</h4>
+    </header>
 
-    
     <form action="/createRoom" method="post">
       <input id="newRoom" name="newRoom" autocomplete="off" required/>
-      <button>Create Room!!</button>
+      <button class="btn btn-light btn-sm">Create Room!!</button>
     </form>
     
     <hr>
     
     <table>
         <tr>
-          <th>Room Name</th>
+          <th>Rooms</th>
           <th>Queue Size</th>
         </tr>
         <% Object.keys(rooms).forEach(function(roomName) { %>
-          <tr>
+        <tr class="tableformat">
           <td>
             <a href= <%= "room/" + roomName %>>
               <%= roomName %>

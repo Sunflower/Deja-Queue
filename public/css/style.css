@@ -1,9 +1,10 @@
 body {
     font-family: 'Roboto', 'Indie Flower', 'Baloo Chettan', serif;
+    background-image: linear-gradient(to right, #5ee7df 0%, #b490ca 100%);
+}
 
-    background: #DD5E89;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #F7BB97, #DD5E89);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #F7BB97, #DD5E89); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+header {
+    margin-bottom: 20px;
 }
 
 ul {
@@ -15,10 +16,19 @@ table {
     margin: auto;
 }
 
-table td + td { border-left:2px solid rgba(10, 20, 210, 0.3); }
+table td + td {
+    border-left:2px solid rgba(10, 20, 210, 0.3);
+}
 
 .fas {
     color : green;
+}
+
+.tableformat td:nth-child(1){
+    width: 300px;
+}
+.tableformat td:nth-child(2){
+    width: 200px;
 }
 
 #container {
@@ -30,9 +40,7 @@ table td + td { border-left:2px solid rgba(10, 20, 210, 0.3); }
     padding-bottom: 30px;
     text-align: center;
     
-    background: #83a4d4;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #b6fbff, #83a4d4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-image: linear-gradient(to left, #5ee7df 0%, #b490ca 100%);
 }
 
 #roomName {
