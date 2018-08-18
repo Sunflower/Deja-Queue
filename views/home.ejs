@@ -1,14 +1,13 @@
 <% include partials/header %>
-  
-  <div id="container">
-    <header>
-      <h1>Deja Queue</h1>
-      <h4>I've been in this place before</h4>
-    </header>
 
-    <form action="/createRoom" method="post">
-      <input id="newRoom" name="newRoom" autocomplete="off" required/>
-      <button class="btn btn-light btn-sm">Create Room!!</button>
+  <div id="appContainer">
+    <form action="/createRoom" class="form-inline justify-content-center" method="post">
+      <div class="input-group">
+        <input id="newRoom" name="newRoom" class="form-control" autocomplete="off" placeholder="Room Name" required>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary btn-sm">Create Room!</button>
+        </div>
+      </div>
     </form>
     
     <hr>

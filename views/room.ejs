@@ -1,17 +1,18 @@
 <% include partials/header %>
 
-  <div id="container">
-    
-    <nav class="navbar">
-      <a href="/" id="home">Home</a>
-      <a id="destroyRoom" href="/destroyRoom/<%=roomName%>">Destroy Room</a>
-    </nav>
-    
-    <h1 id="roomName"><%=roomName.toUpperCase()%></h1>
-    
-    <form id="queueForm" action="">
-      <input id="name" autocomplete="off" required/>
-      <button class="btn btn-light btn-sm">Join Queue!!</button>
+  <div id="appContainer">
+    <div id="roomHeader" class="container">
+      <h2 id="roomName"><%=roomName.toUpperCase()%></h2>
+      <a class="btn btn-primary btn-sm" id="destroyRoom" href="/destroyRoom/<%=roomName%>">Destroy Room!</a>      
+    </div>
+
+    <form id="queueForm" class="form-inline justify-content-center" action="">
+      <div class="input-group">
+        <input id="name" autocomplete="off" placeholder="Student Name" type="text" class="form-control" required> 
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button">Join Queue!</button>
+        </div>
+      </div>
     </form>
     
     <hr>

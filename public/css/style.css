@@ -1,6 +1,6 @@
 body {
     font-family: 'Roboto', 'Indie Flower', 'Baloo Chettan', serif;
-    background-image: linear-gradient(to right, #5ee7df 0%, #b490ca 100%);
+    /*background-image: linear-gradient(to right, #5ee7df 0%, #b490ca 100%);*/
 }
 
 header {
@@ -31,27 +31,34 @@ table td + td {
     width: 200px;
 }
 
-#container {
-    width: 360px;
-    margin: auto auto;
+#appContainer {
+    width: 370px;
+    margin: auto;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
     padding-top: 20px;
-    padding-bottom: 30px;
+    padding-bottom: 25px;
     text-align: center;
     
-    background-image: linear-gradient(to left, #5ee7df 0%, #b490ca 100%);
+    /*background-image: linear-gradient(to left, #5ee7df 0%, #b490ca 100%);*/
+}
+
+
+#queue {
+    margin: 0;
+}
+
+#roomHeader {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
 }
 
 #roomName {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-#home {
-    float: left;
+    margin: auto;
 }
 
 #destroyRoom {
-    float: right;
+    margin: auto;
+    /*display: none;*/
 }
