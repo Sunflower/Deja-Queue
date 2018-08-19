@@ -2,9 +2,9 @@ let socket = io();
 
 $('#queueForm').submit(function(){
     console.log('Client side printing');
-    console.log(window.location.pathname);
-    let path = window.location.pathname;
-    let pathParts = path.split("/");
+    let decodedPath = decodeURI(window.location.pathname);
+    console.log(decodedPath);
+    let pathParts = decodedPath.split("/");
     let roomName = pathParts[2];
     socket.emit('enqueue', {[roomName]: $('#name').val()});
     $('#name').val('');
@@ -15,8 +15,9 @@ $('#queueForm').submit(function(){
 $("ul").on("click", ".delete", function(event) {
     event.stopPropagation();
 
-    let path = window.location.pathname;
-    let pathParts = path.split("/");
+    let decodedPath = decodeURI(window.location.pathname);
+    console.log(decodedPath);
+    let pathParts = decodedPath.split("/");
     let roomName = pathParts[2];
     socket.emit('dequeue',
         {[roomName]: $(this).parent().children(".sName")[0].innerText});

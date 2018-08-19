@@ -33,6 +33,16 @@ app.get("/", function(req, res) {
     });
 });
 
+app.get("/secret", function(req, res) {
+   Room.find({}, function(err, rooms) {
+       if (err) {
+           console.log(err);
+       } else {
+           res.send("Secret Place!");
+       }
+   }) ;
+});
+
 app.get("/room/:roomName", function(req, res) {
     let roomName = req.params.roomName;
     Room.findOne({name: roomName}, function(err, room) {
@@ -48,23 +58,19 @@ app.get("/room/:roomName", function(req, res) {
 
 app.post("/createRoom", function(req, res) {
     let newRoom = req.body.newRoom;
-    newRoom = newRoom.replace(/ /g, "-");
-    if (!rooms.hasOwnProperty(newRoom)) {
-        Room.create({
-            name: newRoom,
-            queue: []
-        }, function(err, room) {
-            if (err) {
-                console.log(err);
-                console.log("Couldn't create new room!");
-            } else {
-                console.log("Successfully created room " + newRoom + "!!");
-            }
-        });
-        rooms[newRoom] = [];  
-    } else {
-        console.log("room exists");
-    }
+    //newRoom = newRoom.replace(/ /g, "-");
+
+    Room.create({
+        name: newRoom,
+        queue: []
+    }, function(err, room) {
+        if (err) {
+            console.log(err);
+            console.log("Couldn't create new room!");
+        } else {
+            console.log("Successfully created room " + newRoom + "!!");
+        }
+    });
     res.redirect("/");
 });
 
@@ -146,7 +152,6 @@ io.on('connection', function(socket){
                 console.log("Succeeded in removing " + student + " in " + roomName);      
             }
         });
-        
     });
 });
 
