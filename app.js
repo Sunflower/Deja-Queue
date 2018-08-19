@@ -43,17 +43,35 @@ app.get("/secret", function(req, res) {
    }) ;
 });
 
-app.get("/room/:roomName", function(req, res) {
-    let roomName = req.params.roomName;
-    Room.findOne({name: roomName}, function(err, room) {
+app.get("/room/:roomId", function(req, res) {
+    let roomId = req.params.roomId;
+    // let roomName = Room.findById(roomId, function(err, foundRoom) {
+    //     if (err) {
+    //         //console.log(err);
+    //     } else {
+    //         return foundRoom;
+    //     }
+    // });
+    
+    Room.findById(roomId, function(err, foundRoom) {
         if (err) {
-            console.log(err);
+            //console.log(err);
             res.redirect("/bizarroWorld");
         } else {
-            console.log("Room is " + roomName);
-            res.render("room", {queue: room["queue"], roomName:roomName});
+            console.log("Room is " + foundRoom["name"]);
+            res.render("room", {queue: foundRoom["queue"], roomName:foundRoom["name"]});
         }
     });
+    
+    // Room.findOne({name: roomName}, function(err, room) {
+    //     if (err) {
+    //         console.log(err);
+    //         res.redirect("/bizarroWorld");
+    //     } else {
+    //         console.log("Room is " + roomName);
+    //         res.render("room", {queue: room["queue"], roomName:roomName});
+    //     }
+    // });
 });
 
 app.post("/createRoom", function(req, res) {
@@ -74,10 +92,16 @@ app.post("/createRoom", function(req, res) {
     res.redirect("/");
 });
 
-app.get("/destroyRoom/:roomName", function(req, res) {
-    let roomName = req.params.roomName;
+app.get("/destroyRoom/:roomId", function(req, res) {
+    let roomId = req.params.roomId;
+    let roomName = Room.findById(roomId, function(err, foundRoom) {
+        if (err) {
+            console.log(err);
+        } else {
+            return foundRoom;
+        }
+    });
     
-    console.log("roomName is: " + roomName);
     Room.deleteOne({name: roomName}, function(err, room) {
         if (err) {
             console.log(err);

@@ -20,7 +20,7 @@
         <% rooms.forEach(function(room) { %>
         <tr class="tableformat">
           <td>
-            <a href= <%= encodeURI("room/" + room["name"]) %>>
+            <a href= <%= encodeURI("room/" + room["_id"]) %>>
               <%= room["name"] %>
             </a>
           </td>
