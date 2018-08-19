@@ -5,7 +5,8 @@ let express = require("express"),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose");
     
-mongoose.connect("mongodb://localhost/deja_q", { useNewUrlParser: true });
+//mongoose.connect("mongodb://localhost/deja_q", { useNewUrlParser: true });
+mongoose.connect("mongodb://deja-q-admin:dejaqpw01@ds225902.mlab.com:25902/deja-q", { useNewUrlParser: true });
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
