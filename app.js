@@ -28,25 +28,19 @@ app.get("/", function(req, res) {
         if (err) {
             console.log(err);
         } else {
-            //console.log(rooms);
             res.render("home", {rooms: rooms});  
         }
     });
-    //res.render("home", {rooms: rooms}); 
 });
 
 app.get("/room/:roomName", function(req, res) {
     let roomName = req.params.roomName;
-    // if (!rooms.hasOwnProperty(roomName)) {
-    //     res.redirect("/bizarroWorld");
-    // } else {
     Room.findOne({name: roomName}, function(err, room) {
         if (err) {
             console.log(err);
             res.redirect("/bizarroWorld");
         } else {
             console.log("Room is " + roomName);
-            //console.log(room);
             res.render("room", {queue: room["queue"], roomName:roomName});
         }
     });
@@ -64,7 +58,6 @@ app.post("/createRoom", function(req, res) {
                 console.log(err);
                 console.log("Couldn't create new room!");
             } else {
-                //console.log(room);
                 console.log("Successfully created room " + newRoom + "!!");
             }
         });
@@ -85,10 +78,7 @@ app.get("/destroyRoom/:roomName", function(req, res) {
         } else {
             console.log("Successfully deleted " + roomName + "!!");
         }
-    })
-    
-    // delete rooms[roomName];
-    // console.log("rooms are now: " + Object.keys(rooms).length);
+    });
     
     res.redirect("/");
 });
@@ -119,21 +109,6 @@ io.on('connection', function(socket){
         student = student.replace(/\s+$/, '');
         
         io.emit('enqueue', student);
-
-        //rooms[roomName].push(student);
-        
-// Room.updateOne({
-//     name: "newroom",
-// }, {
-//     $push: {queue: "StudentX"}
-// }, function(err, room) {
-//   if (err) {
-//       console.log("Couldn't update!!");
-//       console.log(err);
-//   } else {
-//       console.log(room);
-//   }
-// });
         
         Room.updateOne({
             name: roomName
@@ -157,14 +132,6 @@ io.on('connection', function(socket){
         student = student.replace(/\s+$/, '');   // OK BUT WHY!!!
         
         io.emit('dequeue', student);
-        
-        // let i = rooms[roomName].indexOf(student);
-        // if (i !== -1) {
-        //     rooms[roomName].splice(i, 1);
-        //     console.log("Succeeded in removing " + student + " in " + roomName);
-        // } else {
-        //     console.log("Failed to remove " + student + " in " + roomName);
-        // }
         
         Room.updateOne({
             name: roomName
