@@ -3,25 +3,14 @@ let express = require("express"),
     http = require("http").Server(app),
     io = require("socket.io")(http),
     bodyParser = require("body-parser"),
-    mongoose = require("mongoose");
+    mongoose = require("mongoose"),
+    Room = require("./models/room.js");
     
 //mongoose.connect("mongodb://localhost/deja_q", { useNewUrlParser: true });
 mongoose.connect("mongodb://deja-q-admin:dejaqpw01@ds225902.mlab.com:25902/deja-q", { useNewUrlParser: true });
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
-
-let rooms = {
-    "master-bed": ["Anthony", "Estey"],
-    "everlong" : ["Hello,", "I've", "waited", "here", "for", "you"]
-};
-
-var roomSchema = new mongoose.Schema({
-    name: String,
-    queue: [String] 
-});
-
-var Room = mongoose.model("Room", roomSchema);
 
 app.get("/", function(req, res) {
     Room.find({}, function(err, rooms) {
