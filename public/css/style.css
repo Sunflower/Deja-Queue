@@ -12,16 +12,25 @@ ul {
     padding: 0;
 }
 
+li {
+    margin-top: 9px;
+    margin-bottom: 9px;
+}
+
 table {
     margin: auto;
 }
 
 table td + td {
-    border-left:2px solid rgba(10, 20, 210, 0.3);
+    border-left: 2px solid rgba(10, 20, 210, 0.3);
+}
+
+.sName {
+    font-size: 17px;
 }
 
 .fas {
-    color : green;
+    color : #E45CC2;
 }
 
 .tableformat td:nth-child(1){
@@ -42,7 +51,6 @@ table td + td {
     
     /*background-image: linear-gradient(to left, #5ee7df 0%, #b490ca 100%);*/
 }
-
 
 #queue {
     margin: 0;

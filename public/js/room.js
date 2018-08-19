@@ -25,7 +25,7 @@ $("ul").on("click", ".delete", function(event) {
         
 socket.on('enqueue', function(student){
     $('#queue').append("<li>" + "<span class='sName'>" + student
-    + " </span><span class='delete'><i class='fas fa-check'></i></span></li>");
+    + " </span><span class='delete'><i class='fas fa-check-circle'></i></span></li>");
 });
 
 socket.on('dequeue', function(student){
