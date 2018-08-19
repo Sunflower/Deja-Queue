@@ -9,7 +9,6 @@ $('#queueForm').submit(function(){
     socket.emit('enqueue', {
         room: roomID,
         student: $('#name').val()
-        
     });
     $('#name').val('');
     return false;
@@ -28,7 +27,6 @@ $("ul").on("click", ".delete", function(event) {
         {
             room: roomID,
             student: $(this).parent().children(".sName")[0].innerText
-            
         });
 });
         
