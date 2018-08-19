@@ -17,15 +17,15 @@
           <th>Rooms</th>
           <th>Queue Size</th>
         </tr>
-        <% Object.keys(rooms).forEach(function(roomName) { %>
+        <% rooms.forEach(function(room) { %>
         <tr class="tableformat">
           <td>
-            <a href= <%= "room/" + roomName %>>
-              <%= roomName %>
+            <a href= <%= "room/" + room["name"] %>>
+              <%= room["name"] %>
             </a>
           </td>
           <td>
-            <%= rooms[roomName].length %>
+            <%= room["queue"].length %>
           </td>
         </tr>
         <% }) %>

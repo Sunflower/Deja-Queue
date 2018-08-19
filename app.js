@@ -5,7 +5,7 @@ let express = require("express"),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose");
     
-mongoose.connect("mongodb://localhost/deja-q", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/deja_q", { useNewUrlParser: true });
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -19,27 +19,54 @@ var roomSchema = new mongoose.Schema({
     name: String,
     queue: [String] 
 });
+
 var Room = mongoose.model("Room", roomSchema);
 
 app.get("/", function(req, res) {
-    res.render("home", {rooms: rooms});
+    Room.find({}, function(err, rooms) {
+        if (err) {
+            console.log(err);
+        } else {
+            //console.log(rooms);
+            res.render("home", {rooms: rooms});  
+        }
+    });
+    //res.render("home", {rooms: rooms}); 
 });
 
 app.get("/room/:roomName", function(req, res) {
     let roomName = req.params.roomName;
-    console.log("Room is " + roomName);
-    if (!rooms.hasOwnProperty(roomName)) {
-        res.redirect("/bizarroWorld");
-    } else {
-        res.render("room", {queue: rooms[roomName], roomName:roomName});
-    }
-
+    // if (!rooms.hasOwnProperty(roomName)) {
+    //     res.redirect("/bizarroWorld");
+    // } else {
+    Room.findOne({name: roomName}, function(err, room) {
+        if (err) {
+            console.log(err);
+            res.redirect("/bizarroWorld");
+        } else {
+            console.log("Room is " + roomName);
+            //console.log(room);
+            res.render("room", {queue: room["queue"], roomName:roomName});
+        }
+    });
 });
 
 app.post("/createRoom", function(req, res) {
     let newRoom = req.body.newRoom;
     newRoom = newRoom.replace(/ /g, "-");
     if (!rooms.hasOwnProperty(newRoom)) {
+        Room.create({
+            name: newRoom,
+            queue: []
+        }, function(err, room) {
+            if (err) {
+                console.log(err);
+                console.log("Couldn't create new room!");
+            } else {
+                //console.log(room);
+                console.log("Successfully created room " + newRoom + "!!");
+            }
+        });
         rooms[newRoom] = [];  
     } else {
         console.log("room exists");
@@ -51,11 +78,16 @@ app.get("/destroyRoom/:roomName", function(req, res) {
     let roomName = req.params.roomName;
     
     console.log("roomName is: " + roomName);
-    console.log("rooms were: " + Object.keys(rooms).length);
+    Room.deleteOne({name: roomName}, function(err, room) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("Successfully deleted " + roomName + "!!");
+        }
+    })
     
-    delete rooms[roomName];
-    
-    console.log("rooms are now: " + Object.keys(rooms).length);
+    // delete rooms[roomName];
+    // console.log("rooms are now: " + Object.keys(rooms).length);
     
     res.redirect("/");
 });
@@ -87,9 +119,35 @@ io.on('connection', function(socket){
         
         io.emit('enqueue', student);
 
-        rooms[roomName].push(student);
+        //rooms[roomName].push(student);
         
-        console.log("Successfully added " + student + " in: " + roomName);
+// Room.updateOne({
+//     name: "newroom",
+// }, {
+//     $push: {queue: "StudentX"}
+// }, function(err, room) {
+//   if (err) {
+//       console.log("Couldn't update!!");
+//       console.log(err);
+//   } else {
+//       console.log(room);
+//   }
+// });
+        
+        Room.updateOne({
+            name: roomName
+        },
+        {
+            $push: {queue: student}
+        }, function(err, room) {
+            if (err) {
+                console.log(err);
+                console.log("Couldn't add new student!");
+            } else {
+                console.log("Successfully added " + student + " in: " + roomName);        
+            }
+        });
+        
     });
         
     socket.on('dequeue', function(roomNStudent){
@@ -99,13 +157,28 @@ io.on('connection', function(socket){
         
         io.emit('dequeue', student);
         
-        let i = rooms[roomName].indexOf(student);
-        if (i !== -1) {
-            rooms[roomName].splice(i, 1);
-            console.log("Succeeded in removing " + student + " in " + roomName);
-        } else {
-            console.log("Failed to remove " + student + " in " + roomName);
-        }
+        // let i = rooms[roomName].indexOf(student);
+        // if (i !== -1) {
+        //     rooms[roomName].splice(i, 1);
+        //     console.log("Succeeded in removing " + student + " in " + roomName);
+        // } else {
+        //     console.log("Failed to remove " + student + " in " + roomName);
+        // }
+        
+        Room.updateOne({
+            name: roomName
+        },
+        {
+            $pull: {queue: student}
+        }, function(err, room) {
+            if (err) {
+                console.log(err);
+                console.log("Failed to remove " + student + " in " + roomName);
+            } else {
+                console.log("Succeeded in removing " + student + " in " + roomName);      
+            }
+        });
+        
     });
 });
 
