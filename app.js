@@ -1,9 +1,11 @@
-let express = require("express");
-let app = express();
-let http = require("http").Server(app);
-let io = require("socket.io")(http);
-let bodyParser = require("body-parser");
-
+let express = require("express"),
+    app = express(),
+    http = require("http").Server(app),
+    io = require("socket.io")(http),
+    bodyParser = require("body-parser"),
+    mongoose = require("mongoose");
+    
+mongoose.connect("mongodb://localhost/deja-q", { useNewUrlParser: true });
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -12,6 +14,12 @@ let rooms = {
     "master-bed": ["Anthony", "Estey"],
     "everlong" : ["Hello,", "I've", "waited", "here", "for", "you"]
 };
+
+var roomSchema = new mongoose.Schema({
+    name: String,
+    queue: [String] 
+});
+var Room = mongoose.model("Room", roomSchema);
 
 app.get("/", function(req, res) {
     res.render("home", {rooms: rooms});
@@ -66,10 +74,10 @@ app.get("*", function(req, res) {
 });
 
 io.on('connection', function(socket){
-    console.log('a user connected!!!! woo');
+    console.log('A user connected!');
     
     socket.on('disconnect', function(){
-        console.log('user disconnected');
+        console.log('A user disconnected!');
     });
     
     socket.on('enqueue', function(roomNStudent){
@@ -81,7 +89,7 @@ io.on('connection', function(socket){
 
         rooms[roomName].push(student);
         
-        console.log("Tried (perhaps succeeded) to add " + student + " in: " + roomName);
+        console.log("Successfully added " + student + " in: " + roomName);
     });
         
     socket.on('dequeue', function(roomNStudent){

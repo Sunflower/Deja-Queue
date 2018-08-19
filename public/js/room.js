@@ -1,7 +1,7 @@
 let socket = io();
 
 $('#queueForm').submit(function(){
-    console.log('client side printing wowowowowwo!!');
+    console.log('Client side printing');
     console.log(window.location.pathname);
     let path = window.location.pathname;
     let pathParts = path.split("/");
