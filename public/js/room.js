@@ -5,8 +5,12 @@ $('#queueForm').submit(function(){
     let decodedPath = decodeURI(window.location.pathname);
     console.log(decodedPath);
     let pathParts = decodedPath.split("/");
-    let roomName = pathParts[2];
-    socket.emit('enqueue', {[roomName]: $('#name').val()});
+    let roomID = pathParts[2];
+    socket.emit('enqueue', {
+        room: roomID,
+        student: $('#name').val()
+        
+    });
     $('#name').val('');
     return false;
 });
@@ -18,9 +22,14 @@ $("ul").on("click", ".delete", function(event) {
     let decodedPath = decodeURI(window.location.pathname);
     console.log(decodedPath);
     let pathParts = decodedPath.split("/");
-    let roomName = pathParts[2];
+    let roomID = pathParts[2];
+    console.log(roomID);
     socket.emit('dequeue',
-        {[roomName]: $(this).parent().children(".sName")[0].innerText});
+        {
+            room: roomID,
+            student: $(this).parent().children(".sName")[0].innerText
+            
+        });
 });
         
 socket.on('enqueue', function(student){

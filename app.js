@@ -33,25 +33,8 @@ app.get("/", function(req, res) {
     });
 });
 
-app.get("/secret", function(req, res) {
-   Room.find({}, function(err, rooms) {
-       if (err) {
-           console.log(err);
-       } else {
-           res.send("Secret Place!");
-       }
-   }) ;
-});
-
 app.get("/room/:roomId", function(req, res) {
     let roomId = req.params.roomId;
-    // let roomName = Room.findById(roomId, function(err, foundRoom) {
-    //     if (err) {
-    //         //console.log(err);
-    //     } else {
-    //         return foundRoom;
-    //     }
-    // });
     
     Room.findById(roomId, function(err, foundRoom) {
         if (err) {
@@ -62,16 +45,6 @@ app.get("/room/:roomId", function(req, res) {
             res.render("room", {queue: foundRoom["queue"], roomName:foundRoom["name"]});
         }
     });
-    
-    // Room.findOne({name: roomName}, function(err, room) {
-    //     if (err) {
-    //         console.log(err);
-    //         res.redirect("/bizarroWorld");
-    //     } else {
-    //         console.log("Room is " + roomName);
-    //         res.render("room", {queue: room["queue"], roomName:roomName});
-    //     }
-    // });
 });
 
 app.post("/createRoom", function(req, res) {
@@ -134,46 +107,58 @@ io.on('connection', function(socket){
     });
     
     socket.on('enqueue', function(roomNStudent){
-        let roomName = Object.keys(roomNStudent)[0];
-        let student = roomNStudent[roomName];
+        let roomID = roomNStudent["room"];
+        let student = roomNStudent["student"];
         student = student.replace(/\s+$/, '');
         
         io.emit('enqueue', student);
         
         Room.updateOne({
-            name: roomName
+            _id: roomID
         },
         {
             $push: {queue: student}
-        }, function(err, room) {
+        }, function(err, doc) {
             if (err) {
                 console.log(err);
                 console.log("Couldn't add new student!");
             } else {
-                console.log("Successfully added " + student + " in: " + roomName);        
+                Room.findOne({_id: roomID}, function(err, room) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("Successfully added " + student + " in: " + room.name);
+                    }
+                });
             }
         });
         
     });
         
     socket.on('dequeue', function(roomNStudent){
-        let roomName = Object.keys(roomNStudent)[0];
-        let student = roomNStudent[roomName];
+        let roomID = roomNStudent["room"];
+        let student = roomNStudent["student"];
         student = student.replace(/\s+$/, '');   // OK BUT WHY!!!
         
         io.emit('dequeue', student);
         
         Room.updateOne({
-            name: roomName
+            _id: roomID
         },
         {
             $pull: {queue: student}
         }, function(err, room) {
             if (err) {
                 console.log(err);
-                console.log("Failed to remove " + student + " in " + roomName);
+                console.log("Failed to remove " + student + " in " + room.name);
             } else {
-                console.log("Succeeded in removing " + student + " in " + roomName);      
+                Room.findOne({_id: roomID}, function(err, room) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("Successfully removed " + student + " in: " + room.name);
+                    }
+                });
             }
         });
     });
