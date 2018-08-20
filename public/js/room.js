@@ -2,9 +2,9 @@ let socket = io();
 
 $('#queueForm').submit(function(){
     console.log('Client side printing');
-    let decodedPath = decodeURI(window.location.pathname);
-    console.log(decodedPath);
-    let pathParts = decodedPath.split("/");
+    let path = window.location.pathname;
+    console.log(path);
+    let pathParts = path.split("/");
     let roomID = pathParts[2];
     socket.emit('enqueue', {
         room: roomID,
@@ -16,18 +16,18 @@ $('#queueForm').submit(function(){
 
 // Click on checkmark to dequeue student
 $("ul").on("click", ".delete", function(event) {
-    event.stopPropagation();
+    //event.stopPropagation();
 
-    let decodedPath = decodeURI(window.location.pathname);
-    console.log(decodedPath);
-    let pathParts = decodedPath.split("/");
+    let path = window.location.pathname;
+    console.log(path);
+    let pathParts = path.split("/");
     let roomID = pathParts[2];
     console.log(roomID);
-    socket.emit('dequeue',
-        {
-            room: roomID,
-            student: $(this).parent().children(".sName")[0].innerText
-        });
+    let studentName = $(this).parent().children(".sName")[0].innerText;
+    socket.emit('dequeue', {
+        room: roomID,
+        student: studentName
+    });
 });
         
 socket.on('enqueue', function(student){

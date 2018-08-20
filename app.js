@@ -4,7 +4,7 @@ let express = require("express"),
     io = require("socket.io")(http),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
-    Room = require("./models/room.js");
+    Room = require("./models/room");
     
 //mongoose.connect("mongodb://localhost/deja_q", { useNewUrlParser: true });
 mongoose.connect("mongodb://deja-q-admin:dejaqpw01@ds225902.mlab.com:25902/deja-q", { useNewUrlParser: true });
@@ -26,19 +26,22 @@ app.get("/room/:roomId", function(req, res) {
     let roomId = req.params.roomId;
     
     Room.findById(roomId, function(err, foundRoom) {
-        if (err) {
+        if (err || !foundRoom) {
             //console.log(err);
             res.redirect("/bizarroWorld");
         } else {
             console.log("Room is " + foundRoom["name"]);
-            res.render("room", {queue: foundRoom["queue"], roomName:foundRoom["name"]});
+            res.render("room", {
+                roomId: roomId,
+                roomName: foundRoom["name"],
+                queue: foundRoom["queue"],
+            });
         }
     });
 });
 
 app.post("/createRoom", function(req, res) {
     let newRoom = req.body.newRoom;
-    //newRoom = newRoom.replace(/ /g, "-");
 
     Room.create({
         name: newRoom,
@@ -56,19 +59,24 @@ app.post("/createRoom", function(req, res) {
 
 app.get("/destroyRoom/:roomId", function(req, res) {
     let roomId = req.params.roomId;
-    let roomName = Room.findById(roomId, function(err, foundRoom) {
-        if (err) {
-            console.log(err);
+    Room.findById(roomId, function(err, foundRoom) {
+        if (err || !foundRoom) {
+            //console.log(err);
+            console.log("couldn't find room..");
+            console.log(roomId);
         } else {
-            return foundRoom;
-        }
-    });
-    
-    Room.deleteOne({name: roomName}, function(err, room) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("Successfully deleted " + roomName + "!!");
+            let roomName = foundRoom["name"];
+            
+            Room.deleteOne({_id: roomId}, function(err, room) {
+                if (err) {
+                    //console.log(err);
+                    console.lgo(roomId);
+                    console.log(roomName);
+                    console.log("couldn't delete room..");
+                } else {
+                    console.log("Successfully deleted " + roomName + "!!");
+                }
+            });
         }
     });
     
@@ -116,7 +124,11 @@ io.on('connection', function(socket){
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log("Successfully added " + student + " in: " + room.name);
+                        try {
+                            console.log("Successfully added " + student + " in: " + room.name);
+                        } catch(err) {
+                            console.log(err);
+                        }
                     }
                 });
             }
